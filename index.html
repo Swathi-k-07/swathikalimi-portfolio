@@ -4,922 +4,711 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swathi Kalimi | Data Analyst & BI Developer</title>
-    <!-- Tailwind CSS -->
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            900: '#0c4a6e',
-                            dark: '#0a0f1d',
+                            dark: '#0B0F19',
                             card: '#111827',
-                            cardLight: '#ffffff'
-                        },
-                        cyanAccent: '#06b6d4',
+                            border: '#1F2937',
+                            primary: '#38BDF8',
+                            secondary: '#818CF8',
+                            accent: '#F43F5E',
+                            emerald: '#10B981'
+                        }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        mono: ['JetBrains Mono', 'monospace']
                     }
                 }
             }
         }
     </script>
+    
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        .glass-panel {
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #F3F4F6;
+        }
+        .glass-card {
             background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .glass-panel-light {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.15);
         }
-        .glow-effect {
-            box-shadow: 0 0 25px -5px rgba(14, 165, 233, 0.3);
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+        .text-gradient {
+            background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #C084FC 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .text-gradient-emerald {
+            background: linear-gradient(135deg, #34D399 0%, #38BDF8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        ::-webkit-scrollbar-track {
-            background: #0a0f1d;
+        .toast {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #0ea5e9;
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
-<body class="bg-brand-dark text-slate-200 font-sans antialiased transition-colors duration-300">
+<body class="selection:bg-brand-primary selection:text-brand-dark min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast fixed bottom-6 right-6 z-50 bg-brand-primary text-brand-dark px-5 py-3 rounded-xl font-medium shadow-2xl flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-lg"></i>
+        <span id="toast-message">Copied to clipboard!</span>
+    </div>
 
     <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-800/80 px-4 lg:px-8 py-3 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <!-- Logo / Brand Name -->
-            <a href="#" class="flex items-center gap-2 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-cyanAccent flex items-center justify-center font-extrabold text-slate-900 shadow-md group-hover:scale-105 transition-transform">
-                    SK
+    <nav class="sticky top-0 z-40 w-full glass-card border-b border-gray-800/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-primary to-brand-secondary p-[2px] transition-transform group-hover:scale-105">
+                    <div class="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center font-bold text-brand-primary">
+                        SK
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <span class="font-bold text-lg text-white tracking-wide group-hover:text-brand-400 transition-colors">Swathi Kalimi</span>
-                    <span class="text-xs text-brand-400 font-mono flex items-center gap-1">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Data Analyst & BI Dev
+                <div>
+                    <span class="font-bold text-lg text-white block leading-tight">Swathi Kalimi</span>
+                    <span class="text-xs text-brand-primary font-mono flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-brand-emerald animate-pulse"></span> Data Analyst & BI Dev
                     </span>
                 </div>
             </a>
 
-            <!-- Desktop Nav Links -->
-            <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
-                <a href="#about" class="text-slate-300 hover:text-brand-400 transition-colors">About</a>
-                <a href="#skills" class="text-slate-300 hover:text-brand-400 transition-colors">Skills</a>
-                <a href="#experience" class="text-slate-300 hover:text-brand-400 transition-colors">Experience</a>
-                <a href="#education" class="text-slate-300 hover:text-brand-400 transition-colors">Education</a>
-                <a href="#contact" class="text-slate-300 hover:text-brand-400 transition-colors">Contact</a>
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#about" class="hover:text-brand-primary transition-colors">About</a>
+                <a href="#skills" class="hover:text-brand-primary transition-colors">Skills</a>
+                <a href="#experience" class="hover:text-brand-primary transition-colors">Experience</a>
+                <a href="#education" class="hover:text-brand-primary transition-colors">Education</a>
+                <a href="#contact" class="hover:text-brand-primary transition-colors">Contact</a>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="hidden sm:flex items-center space-x-3">
-                <button onclick="openResumeModal()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-brand-400 border border-brand-500/30 hover:border-brand-500/60 transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-file-pdf text-sm"></i> View Resume
+            <div class="hidden md:flex items-center gap-3">
+                <button onclick="openModal('resume-modal')" class="px-4 py-2 rounded-xl text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-file-pdf text-brand-primary text-sm"></i> View Resume
                 </button>
-                <a href="#contact" class="px-4 py-2 text-xs font-semibold rounded-lg bg-gradient-to-r from-brand-500 to-cyanAccent text-slate-950 hover:opacity-90 shadow-lg shadow-brand-500/20 transition-all">
+                <a href="#contact" class="px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-brand-primary to-brand-secondary text-brand-dark font-semibold hover:opacity-90 transition-all shadow-lg shadow-brand-primary/20">
                     Get In Touch
                 </a>
             </div>
 
-            <!-- Mobile Hamburger Toggle -->
-            <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2 text-xl focus:outline-none" aria-label="Toggle Navigation">
-                <i class="fa-solid fa-bars"></i>
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-gray-400 hover:text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
             </button>
         </div>
 
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden mt-3 pt-3 border-t border-slate-800/80 px-2 space-y-3 pb-2">
-            <a href="#about" class="block text-slate-300 hover:text-brand-400 py-1 font-medium">About</a>
-            <a href="#skills" class="block text-slate-300 hover:text-brand-400 py-1 font-medium">Skills</a>
-            <a href="#experience" class="block text-slate-300 hover:text-brand-400 py-1 font-medium">Experience</a>
-            <a href="#education" class="block text-slate-300 hover:text-brand-400 py-1 font-medium">Education & Certifications</a>
-            <a href="#contact" class="block text-slate-300 hover:text-brand-400 py-1 font-medium">Contact</a>
-            <div class="pt-2 flex flex-col gap-2">
-                <button onclick="openResumeModal()" class="w-full py-2 text-xs text-center font-semibold rounded-lg bg-slate-800 text-brand-400 border border-brand-500/30">
-                    <i class="fa-solid fa-file-pdf"></i> View Resume
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-6 space-y-3 bg-brand-dark/95 border-b border-gray-800">
+            <a href="#about" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-primary">About</a>
+            <a href="#skills" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-primary">Skills</a>
+            <a href="#experience" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-primary">Experience</a>
+            <a href="#education" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-primary">Education</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-primary">Contact</a>
+            <div class="pt-4 flex flex-col gap-2">
+                <button onclick="openModal('resume-modal'); toggleMobileMenu();" class="w-full py-2.5 rounded-xl text-sm font-medium bg-gray-800 text-gray-200 border border-gray-700 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-file-pdf text-brand-primary"></i> View Resume
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="about" class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
-        <!-- Background Decorative Glows -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-brand-600/15 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24 w-full">
 
-        <div class="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <!-- Left Main Content -->
-                <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/90 border border-slate-700/80 text-brand-400 text-xs font-mono">
-                        <i class="fa-solid fa-location-dot text-rose-400"></i> Seattle, WA &nbsp;|&nbsp; 8+ Years Experience
-                    </div>
-
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                        Hi, I'm <span class="gradient-text">Swathi Kalimi</span>
-                    </h1>
-
-                    <p class="text-lg sm:text-xl text-slate-300 font-medium">
-                        Data Analyst & BI Developer specializing in <span class="text-brand-400 font-semibold">Power BI</span>, <span class="text-cyanAccent font-semibold">SQL</span>, <span class="text-brand-400 font-semibold">Python/PySpark</span> & <span class="text-cyanAccent font-semibold">Microsoft Fabric</span>.
-                    </p>
-
-                    <p class="text-slate-400 leading-relaxed text-sm sm:text-base">
-                        Passionate about transforming large, messy datasets into automated data pipelines, intuitive dashboards, and robust data models. Proven track record across tech giants, ML operations, marketplace, healthcare, and enterprise sales analytics.
-                    </p>
-
-                    <!-- Contact Bar Chips -->
-                    <div class="flex flex-wrap gap-3 pt-2 text-xs font-mono">
-                        <button onclick="copyToClipboard('swathikalimi@outlook.com', 'Email copied to clipboard!')" class="glass-panel px-3.5 py-2 rounded-lg hover:border-brand-500/50 transition-all flex items-center gap-2 group text-slate-300 hover:text-white">
-                            <i class="fa-regular fa-envelope text-brand-400 group-hover:scale-110 transition-transform"></i>
-                            <span>swathikalimi@outlook.com</span>
-                            <i class="fa-regular fa-copy text-slate-500 group-hover:text-brand-400 text-[10px] ml-1"></i>
-                        </button>
-                        <button onclick="copyToClipboard('425-429-1234', 'Phone number copied!')" class="glass-panel px-3.5 py-2 rounded-lg hover:border-brand-500/50 transition-all flex items-center gap-2 group text-slate-300 hover:text-white">
-                            <i class="fa-solid fa-phone text-emerald-400 group-hover:scale-110 transition-transform"></i>
-                            <span>425-429-1234</span>
-                            <i class="fa-regular fa-copy text-slate-500 group-hover:text-emerald-400 text-[10px] ml-1"></i>
-                        </button>
-                    </div>
-
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-wrap items-center gap-4 pt-4">
-                        <a href="#experience" class="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-500 to-cyanAccent text-slate-950 font-semibold text-sm hover:opacity-95 transition-all shadow-lg shadow-brand-500/20 flex items-center gap-2">
-                            Explore Work Experience <i class="fa-solid fa-arrow-down text-xs"></i>
-                        </a>
-                        <button onclick="openResumeModal()" class="px-6 py-3 rounded-xl glass-panel hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700/80 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-file-lines text-brand-400"></i> Resume Highlights
-                        </button>
-                    </div>
-
-                    <!-- Quick Social Links -->
-                    <div class="flex items-center gap-4 pt-2">
-                        <span class="text-xs text-slate-500 uppercase tracking-widest font-mono">Connect:</span>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-slate-800/80 hover:bg-brand-600/30 hover:text-brand-400 flex items-center justify-center text-slate-400 transition-all border border-slate-700/50" title="LinkedIn Profile">
-                            <i class="fa-brands fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-slate-800/80 hover:bg-slate-700 hover:text-white flex items-center justify-center text-slate-400 transition-all border border-slate-700/50" title="GitHub Profile">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                    </div>
+        <!-- Hero Section -->
+        <section id="about" class="pt-8 grid md:grid-cols-12 gap-12 items-center">
+            <div class="md:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-mono">
+                    <i class="fa-solid fa-location-dot"></i> Seattle, WA &nbsp;|&nbsp; 8+ Years Experience
                 </div>
 
-                <!-- Right Visual Hero Card (Interactive Impact Dashboard Widget) -->
-                <div class="lg:col-span-5">
-                    <div class="glass-panel p-6 sm:p-8 rounded-2xl relative border border-slate-800 glow-effect">
-                        <div class="flex items-center justify-between pb-6 border-b border-slate-800">
-                            <div class="flex items-center gap-3">
-                                <div class="w-3 h-3 rounded-full bg-rose-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                                <span class="font-mono text-xs text-slate-400 ml-2">swathi_analytics_overview.py</span>
-                            </div>
-                            <span class="text-xs font-mono text-brand-400 bg-brand-500/10 px-2.5 py-1 rounded-md">LIVE METRICS</span>
-                        </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                    Hi, I'm <span class="text-gradient">Swathi Kalimi</span>
+                </h1>
 
-                        <!-- Data Cards Grid inside Hero Card -->
-                        <div class="grid grid-cols-2 gap-4 mt-6">
-                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800/80 hover:border-brand-500/40 transition-all">
-                                <div class="text-brand-400 text-2xl font-bold font-mono">8+ Years</div>
-                                <div class="text-xs text-slate-400 mt-1 font-medium">BI & Analytics Experience</div>
-                            </div>
-                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800/80 hover:border-brand-500/40 transition-all">
-                                <div class="text-cyanAccent text-2xl font-bold font-mono">Millions+</div>
-                                <div class="text-xs text-slate-400 mt-1 font-medium">Records Processed</div>
-                            </div>
-                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800/80 hover:border-brand-500/40 transition-all">
-                                <div class="text-emerald-400 text-2xl font-bold font-mono">15%</div>
-                                <div class="text-xs text-slate-400 mt-1 font-medium">Manual Curation Reduced</div>
-                            </div>
-                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800/80 hover:border-brand-500/40 transition-all">
-                                <div class="text-purple-400 text-2xl font-bold font-mono">10+ Metrics</div>
-                                <div class="text-xs text-slate-400 mt-1 font-medium">Validated vs Adobe & CJA</div>
-                            </div>
-                        </div>
+                <p class="text-lg text-gray-300 leading-relaxed">
+                    <strong class="text-white font-semibold">Data Analyst & BI Developer</strong> specializing in <span class="text-brand-primary font-medium">Power BI</span>, <span class="text-brand-primary font-medium">SQL</span>, <span class="text-brand-primary font-medium">Python/PySpark</span>, and <span class="text-brand-primary font-medium">Microsoft Fabric</span>.
+                </p>
 
-                        <!-- Mini Code Visual -->
-                        <div class="mt-6 bg-slate-950 p-4 rounded-xl font-mono text-xs text-slate-300 border border-slate-800 space-y-1 overflow-x-auto">
-                            <div class="text-slate-500"># Fabric & PySpark Data Pipeline Execution</div>
-                            <div><span class="text-purple-400">import</span> pyspark.sql.functions <span class="text-purple-400">as</span> F</div>
-                            <div>df = spark.read.format(<span class="text-emerald-300">"delta"</span>).load(<span class="text-emerald-300">"OneLake/sales"</span>)</div>
-                            <div>df_clean = df.filter(F.col(<span class="text-emerald-300">"quality_score"</span>) &gt; <span class="text-amber-400">0.95</span>)</div>
-                            <div class="text-brand-400 font-semibold">&gt;&gt; Data Pipeline Status: SUCCESS [200 OK]</div>
-                        </div>
-                    </div>
+                <p class="text-gray-400 text-base leading-relaxed">
+                    Passionate about transforming large, messy datasets into automated data pipelines, intuitive dashboards, and robust data models. Proven track record across tech giants, ML operations, marketplace, healthcare, and enterprise sales analytics.
+                </p>
+
+                <div class="flex flex-wrap items-center gap-4 pt-2">
+                    <button onclick="copyToClipboard('swathikalimi@outlook.com', 'Email address')" class="px-4 py-2.5 rounded-xl bg-gray-800/80 hover:bg-gray-700 text-gray-200 border border-gray-700 text-sm font-medium flex items-center gap-2.5 transition-all">
+                        <i class="fa-solid fa-envelope text-brand-primary"></i>
+                        <span>swathikalimi@outlook.com</span>
+                        <i class="fa-regular fa-copy text-xs text-gray-400"></i>
+                    </button>
                 </div>
 
-            </div>
-        </div>
-    </section>
+                <div class="flex items-center gap-4 pt-4">
+                    <a href="#experience" class="px-6 py-3 rounded-xl bg-brand-primary text-brand-dark font-semibold text-sm hover:bg-sky-400 transition-all shadow-lg shadow-brand-primary/20 flex items-center gap-2">
+                        Explore Work Experience <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </a>
+                    <button onclick="openModal('resume-modal')" class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-medium text-sm transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-file-pdf text-brand-primary"></i> Resume Highlights
+                    </button>
+                </div>
 
-    <!-- Skills Dashboard Section -->
-    <section id="skills" class="py-20 relative bg-slate-900/50 border-y border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <h2 class="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">Technical Proficiency</h2>
-                <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Interactive Skills Dashboard</h3>
-                <p class="text-slate-400 mt-3 text-sm sm:text-base">Filter by category to explore my end-to-end data analytics and engineering stack.</p>
+                <!-- Quick Socials -->
+                <div class="pt-2 flex items-center gap-4 text-gray-400 text-sm">
+                    <span>CONNECT:</span>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="p-2.5 rounded-xl bg-gray-800/50 hover:bg-gray-700 hover:text-white transition-all"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                    <a href="https://github.com" target="_blank" rel="noopener" class="p-2.5 rounded-xl bg-gray-800/50 hover:bg-gray-700 hover:text-white transition-all"><i class="fa-brands fa-github text-lg"></i></a>
+                </div>
             </div>
 
-            <!-- Skill Filter Category Tabs -->
-            <div class="flex flex-wrap justify-center gap-2 mb-10" id="skill-category-filters">
-                <button onclick="filterSkills('all')" class="skill-tab active-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-brand-500 text-slate-950 shadow-md">
-                    All Skills
-                </button>
-                <button onclick="filterSkills('languages')" class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-panel text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
-                    Languages
-                </button>
-                <button onclick="filterSkills('bi')" class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-panel text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
-                    BI & Analytics
-                </button>
-                <button onclick="filterSkills('cloud')" class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-panel text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
-                    Data Engineering & Cloud
-                </button>
-                <button onclick="filterSkills('modeling')" class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-panel text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
-                    Data Modeling & Databases
-                </button>
-                <button onclick="filterSkills('python')" class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-panel text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
-                    Python Libraries & Tools
-                </button>
-                <button onclick="filterSkills('core')" class="skill-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold glass-panel text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
-                    Core Competencies
-                </button>
+            <!-- Visual Dashboard Preview Card -->
+            <div class="md:col-span-5 relative">
+                <div class="absolute -inset-1 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-3xl blur-xl opacity-30 animate-pulse"></div>
+                <div class="relative glass-card rounded-2xl p-6 border border-gray-800 space-y-6">
+                    <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="ml-2 font-mono text-xs text-gray-400">swathi_analytics_overview.py</span>
+                        </div>
+                        <span class="px-2.5 py-1 rounded bg-brand-primary/10 text-brand-primary font-mono text-xs">LIVE METRICS</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-gray-900/80 border border-gray-800">
+                            <span class="text-2xl font-bold text-gradient font-mono">8+ Years</span>
+                            <p class="text-xs text-gray-400 mt-1">BI & Analytics Experience</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-900/80 border border-gray-800">
+                            <span class="text-2xl font-bold text-brand-primary font-mono">Millions+</span>
+                            <p class="text-xs text-gray-400 mt-1">Records Processed</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-900/80 border border-gray-800">
+                            <span class="text-2xl font-bold text-brand-emerald font-mono">15%</span>
+                            <p class="text-xs text-gray-400 mt-1">Manual Curation Reduced</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-900/80 border border-gray-800">
+                            <span class="text-2xl font-bold text-purple-400 font-mono">10+ Metrics</span>
+                            <p class="text-xs text-gray-400 mt-1">Validated vs Adobe & CJA</p>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet Container -->
+                    <div class="bg-gray-950 p-4 rounded-xl font-mono text-xs space-y-1.5 border border-gray-800 text-gray-300">
+                        <div class="text-gray-500"># Fabric & PySpark Data Pipeline Execution</div>
+                        <div><span class="text-purple-400">import</span> pyspark.sql.functions <span class="text-purple-400">as</span> F</div>
+                        <div>df = spark.read.format(<span class="text-emerald-400">"delta"</span>).load(<span class="text-emerald-400">"OneLake/sales"</span>)</div>
+                        <div>df_clean = df.filter(F.col(<span class="text-emerald-400">"quality_score"</span>) > <span class="text-amber-400">0.95</span>)</div>
+                        <div class="text-brand-primary font-semibold">&gt;&gt; Data Pipeline Status: SUCCESS [200 OK]</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Skills Section -->
+        <section id="skills" class="space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-800 pb-6">
+                <div>
+                    <h2 class="text-xs font-mono text-brand-primary uppercase tracking-wider">Technical Expertise</h2>
+                    <h3 class="text-3xl font-bold text-white mt-1">Skills & Technical Toolkit</h3>
+                </div>
+                <!-- Filter Pills -->
+                <div class="flex flex-wrap gap-2" id="skill-filters">
+                    <button onclick="filterSkills('all')" class="skill-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-brand-primary text-brand-dark">All Skills</button>
+                    <button onclick="filterSkills('bi')" class="skill-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800 text-gray-400 hover:text-white">BI & Analytics</button>
+                    <button onclick="filterSkills('data-eng')" class="skill-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800 text-gray-400 hover:text-white">Cloud & Engineering</button>
+                    <button onclick="filterSkills('languages')" class="skill-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800 text-gray-400 hover:text-white">Languages & Modeling</button>
+                </div>
             </div>
 
-            <!-- Skills Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="skills-grid">
-                
-                <!-- Category Card: Languages -->
-                <div class="skill-card glass-panel p-6 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all" data-category="languages">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
-                        <h4 class="font-bold text-white text-lg">Languages</h4>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="skills-grid">
+                <!-- Card 1: BI & Visualization -->
+                <div class="glass-card rounded-2xl p-6 space-y-4 skill-card" data-category="bi">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xl">
+                        <i class="fa-solid fa-chart-column"></i>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80 flex items-center gap-1.5"><i class="fa-solid fa-database text-cyan-400"></i> SQL</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80 flex items-center gap-1.5"><i class="fa-brands fa-python text-yellow-400"></i> Python</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80 flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-400"></i> PySpark</span>
-                    </div>
-                </div>
-
-                <!-- Category Card: BI & Analytics -->
-                <div class="skill-card glass-panel p-6 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all" data-category="bi">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-brand-500/10 text-brand-400 flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-chart-line"></i>
-                        </div>
-                        <h4 class="font-bold text-white text-lg">BI & Analytics</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Power BI (DAX, Power Query)</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Tableau</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Looker Studio</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Advanced Excel</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Adobe Analytics</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Customer Journey Analytics (CJA)</span>
+                    <h4 class="text-xl font-bold text-white">BI & Analytics</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Interactive dashboards, KPI reporting, and complex analytical modeling.</p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Power BI</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">DAX</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Power Query</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Tableau</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Looker Studio</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Adobe Analytics</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">CJA</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Advanced Excel</span>
                     </div>
                 </div>
 
-                <!-- Category Card: Data Engineering & Cloud -->
-                <div class="skill-card glass-panel p-6 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all" data-category="cloud">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-cyanAccent/10 text-cyanAccent flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-cloud"></i>
-                        </div>
-                        <h4 class="font-bold text-white text-lg">Data Engineering & Cloud</h4>
+                <!-- Card 2: Cloud & Data Engineering -->
+                <div class="glass-card rounded-2xl p-6 space-y-4 skill-card" data-category="data-eng">
+                    <div class="w-12 h-12 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center text-brand-primary text-xl">
+                        <i class="fa-solid fa-cloud"></i>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Microsoft Fabric</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">OneLake</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Delta Lake</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Azure Data Factory</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">ETL / ELT Pipelines</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Microsoft Azure</span>
-                    </div>
-                </div>
-
-                <!-- Category Card: Data Modeling & Databases -->
-                <div class="skill-card glass-panel p-6 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all" data-category="modeling">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-sitemap"></i>
-                        </div>
-                        <h4 class="font-bold text-white text-lg">Data Modeling & Databases</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Star Schema</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Snowflake Schema</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Fact & Dimension Tables</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">MS SQL Server</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">MySQL</span>
+                    <h4 class="text-xl font-bold text-white">Cloud & Data Eng</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Modern data stack architecture, distributed lakehouses, and ETL pipelines.</p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Microsoft Fabric</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">OneLake</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Delta Lake</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Azure Data Factory</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">ETL / ELT</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Azure</span>
                     </div>
                 </div>
 
-                <!-- Category Card: Python Libraries & Tools -->
-                <div class="skill-card glass-panel p-6 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all" data-category="python">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-cubes"></i>
-                        </div>
-                        <h4 class="font-bold text-white text-lg">Python Libraries & Tools</h4>
+                <!-- Card 3: Languages & Libraries -->
+                <div class="glass-card rounded-2xl p-6 space-y-4 skill-card" data-category="languages">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl">
+                        <i class="fa-solid fa-code"></i>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Pandas</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">NumPy</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Matplotlib</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Seaborn</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">GitHub</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">VS Code</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Jupyter Notebooks</span>
-                    </div>
-                </div>
-
-                <!-- Category Card: Core Competencies -->
-                <div class="skill-card glass-panel p-6 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all" data-category="core">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-list-check"></i>
-                        </div>
-                        <h4 class="font-bold text-white text-lg">Core Competencies</h4>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Data Quality & Validation</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">KPI Reporting & Metrics</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Time-Series Forecasting</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Anomaly Detection</span>
-                        <span class="px-3 py-1.5 bg-slate-800/90 rounded-lg text-xs font-mono text-slate-200 border border-slate-700/80">Cross-Platform Reconciliation</span>
+                    <h4 class="text-xl font-bold text-white">Languages & Code</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">High-performance querying, statistical computing, and data wrangling.</p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">SQL</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Python</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">PySpark</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Pandas</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">NumPy</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Matplotlib</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Seaborn</span>
                     </div>
                 </div>
 
+                <!-- Card 4: Modeling & Databases -->
+                <div class="glass-card rounded-2xl p-6 space-y-4 skill-card" data-category="languages">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white">Data Modeling</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Architecting optimized dimensional models and data validation frameworks.</p>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Star Schema</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Snowflake Schema</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">MS SQL Server</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">MySQL</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">Data Quality</span>
+                        <span class="px-2.5 py-1 rounded-md bg-gray-800 text-gray-300 text-xs font-mono">GitHub</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Work Experience Section -->
-    <section id="experience" class="py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">Professional Journey</h2>
-                <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Work Experience</h3>
-                <p class="text-slate-400 mt-3 text-sm sm:text-base">Demonstrated history of driving analytics innovation across leading tech, healthcare, and enterprise platforms.</p>
+        <!-- Experience Timeline Section -->
+        <section id="experience" class="space-y-8">
+            <div class="border-b border-gray-800 pb-6">
+                <h2 class="text-xs font-mono text-brand-primary uppercase tracking-wider">Career Journey</h2>
+                <h3 class="text-3xl font-bold text-white mt-1">Professional Experience</h3>
             </div>
 
-            <!-- Experience Timeline Container -->
-            <div class="relative border-l-2 border-slate-800 ml-4 md:ml-32 space-y-12">
+            <div class="relative border-l-2 border-gray-800 ml-4 md:ml-6 space-y-12 pl-6 md:pl-8">
 
-                <!-- EXPERIENCE 1: Google (via Cognizant) -->
-                <div class="relative pl-6 md:pl-10 group">
-                    <!-- Timeline Node Pin -->
-                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-slate-900 border-2 border-brand-500 flex items-center justify-center text-brand-400 text-xs shadow-lg group-hover:bg-brand-500 group-hover:text-slate-950 transition-all">
-                        <i class="fa-brands fa-google text-xs"></i>
-                    </div>
-
-                    <!-- Date Badge (Desktop Left Absolute) -->
-                    <div class="md:absolute md:-left-44 md:top-2 mb-2 md:mb-0 text-xs font-mono text-slate-400 md:text-right w-36">
-                        Feb 2026 – Present
-                    </div>
-
-                    <!-- Content Card -->
-                    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
-                        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-800/80">
+                <!-- Role 1: Google (via Cognizant) -->
+                <div class="relative group">
+                    <span class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-brand-primary border-4 border-brand-dark group-hover:scale-125 transition-transform"></span>
+                    <div class="glass-card rounded-2xl p-6 md:p-8 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 pb-4">
                             <div>
-                                <h4 class="text-xl font-bold text-white">Data Analyst</h4>
-                                <div class="text-brand-400 font-semibold text-sm flex items-center gap-2 mt-0.5">
+                                <h4 class="text-2xl font-bold text-white">Data Analyst</h4>
+                                <div class="text-brand-primary font-medium flex items-center gap-2">
                                     <span>Google (via Cognizant)</span>
-                                    <span class="text-slate-600">•</span>
-                                    <span class="text-slate-400 text-xs font-normal">Seattle, WA</span>
+                                    <span class="text-gray-500">•</span>
+                                    <span class="text-gray-400 text-sm">Seattle, WA</span>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
-                                Current Role
+                            <span class="px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-mono w-fit">
+                                Feb 2026 – Present
                             </span>
                         </div>
 
-                        <!-- Key Achievements List -->
-                        <ul class="mt-4 space-y-2.5 text-sm text-slate-300">
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Processed <strong>millions of raw records</strong> with SQL scripts on Google’s internal data platform, extracting 100k high-priority cases into curated training datasets.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Built an <strong>end-to-end sign analysis workflow</strong> for a map-sign ML model that includes data extraction, error identification, model retraining, and ground-truth routing.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Designed <strong>LLM-driven vision prompts</strong> to automate the analysis of sign features, significantly improving accuracy and scalability of sign classification.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Automated candidate selection and deduplication across large geo-imagery datasets, <strong>cutting manual data curation effort by 15%</strong>.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Built distributed data pipelines & Python validation scripts to prepare/deliver datasets, minimizing discrepancies across mapping regions.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Built & maintain a central performance dashboard tracking operational KPIs & ML metrics; thoroughly documented data extracts for team reuse.</span>
-                            </li>
+                        <ul class="space-y-2.5 text-gray-300 text-sm list-disc pl-5">
+                            <li>Processed millions of raw records with SQL scripts on Google’s internal data platform, extracting 100k high-priority cases into curated training datasets.</li>
+                            <li>Built an end-to-end sign analysis workflow for a map-sign ML model that includes data extraction, identifying model errors, retraining, and routing cases for ground-truth labeling.</li>
+                            <li>Designed LLM-driven vision prompts to automate analysis of sign features, improving accuracy and scalability of sign classification.</li>
+                            <li>Automated candidate selection and deduplication across large geo-imagery datasets, cutting manual data curation effort by 15%.</li>
+                            <li>Built distributed data pipelines and Python validation scripts to prepare and deliver datasets for labelling, reducing data discrepancies across mapping regions.</li>
+                            <li>Built and maintain a dashboard that consolidates multiple data sources to track model performance and operational KPIs, documented data extracts and dashboard designs for team reuse.</li>
                         </ul>
 
-                        <!-- Tech Stack Tags -->
-                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap gap-2 text-xs font-mono">
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">SQL</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Python</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">LLM Vision Prompts</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Geo-Spatial Data</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">ML Pipelines</span>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">SQL</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Python</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">LLM Prompts</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">ML Data Pipelines</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Dashboards</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- EXPERIENCE 2: Upwork -->
-                <div class="relative pl-6 md:pl-10 group">
-                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-slate-900 border-2 border-brand-500 flex items-center justify-center text-brand-400 text-xs shadow-lg group-hover:bg-brand-500 group-hover:text-slate-950 transition-all">
-                        <i class="fa-solid fa-briefcase text-xs"></i>
-                    </div>
-
-                    <div class="md:absolute md:-left-44 md:top-2 mb-2 md:mb-0 text-xs font-mono text-slate-400 md:text-right w-36">
-                        Mar 2024 – Jan 2026
-                    </div>
-
-                    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
-                        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-800/80">
+                <!-- Role 2: Upwork -->
+                <div class="relative group">
+                    <span class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-brand-secondary border-4 border-brand-dark group-hover:scale-125 transition-transform"></span>
+                    <div class="glass-card rounded-2xl p-6 md:p-8 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 pb-4">
                             <div>
-                                <h4 class="text-xl font-bold text-white">Data Analyst</h4>
-                                <div class="text-brand-400 font-semibold text-sm flex items-center gap-2 mt-0.5">
+                                <h4 class="text-2xl font-bold text-white">Data Analyst</h4>
+                                <div class="text-brand-secondary font-medium flex items-center gap-2">
                                     <span>Upwork</span>
-                                    <span class="text-slate-600">•</span>
-                                    <span class="text-slate-400 text-xs font-normal">Seattle, WA</span>
+                                    <span class="text-gray-500">•</span>
+                                    <span class="text-gray-400 text-sm">Seattle, WA</span>
                                 </div>
                             </div>
+                            <span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-xs font-mono w-fit">
+                                Mar 2024 – Jan 2026
+                            </span>
                         </div>
 
-                        <ul class="mt-4 space-y-2.5 text-sm text-slate-300">
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Integrated a custom <strong>AI data agent with Microsoft Fabric</strong> so stakeholders query OneLake in natural language, reducing ad hoc engineer requests.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Built comprehensive Power BI dashboards utilizing DAX, Power Query, and drill-through for regional/product analysis, time-intelligence, and sales forecasting.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Automated ETL workflows using parameter-driven PySpark notebooks in Microsoft Fabric to handle incremental loads, schema evolution, and deduplication.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Optimized Delta Lake tables using partitioning, OPTIMIZE commands, salting, and broadcast joins for accelerated query speeds.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Modeled raw streams into star/snowflake schemas with conformed fact/dimension tables, ensuring seamless downstream analytics.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Constructed data quality checks & anomaly detection rules, validating Fabric data against Adobe Analytics & CJA on 10+ core metrics to resolve mismatches.</span>
-                            </li>
+                        <ul class="space-y-2.5 text-gray-300 text-sm list-disc pl-5">
+                            <li>Integrated a custom AI data agent with Microsoft Fabric so stakeholders can query OneLake in natural language, reducing ad hoc data requests to engineering.</li>
+                            <li>Built a Power BI dashboard using DAX, Power Query, and drill through for regional and product-category analysis, including time-intelligence, forecasting, and trend analysis to support sales planning.</li>
+                            <li>Automated ETL workflows with parameter-driven PySpark notebooks in Microsoft Fabric, handling incremental loads, schema evolution, and deduplication.</li>
+                            <li>Optimized Delta Lake tables using partitioning, Optimize, salting, and broadcast joins to improve query performance.</li>
+                            <li>Modeled raw data streams into star and snowflake schemas with conformed fact and dimension tables for downstream analytics.</li>
+                            <li>Built data quality checks, anomaly detection rules, and reconciliation processes, validating Fabric data against Adobe Analytics and CJA on 10+ core metrics and resolving session and conversion mismatches across platforms.</li>
                         </ul>
 
-                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap gap-2 text-xs font-mono">
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Microsoft Fabric</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">PySpark</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">OneLake & Delta Lake</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Power BI / DAX</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Adobe Analytics / CJA</span>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Microsoft Fabric</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Power BI (DAX)</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">PySpark</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Delta Lake</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Adobe Analytics / CJA</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- EXPERIENCE 3: Fusion Tech -->
-                <div class="relative pl-6 md:pl-10 group">
-                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-slate-900 border-2 border-brand-500 flex items-center justify-center text-brand-400 text-xs shadow-lg group-hover:bg-brand-500 group-hover:text-slate-950 transition-all">
-                        <i class="fa-solid fa-notes-medical text-xs"></i>
-                    </div>
-
-                    <div class="md:absolute md:-left-44 md:top-2 mb-2 md:mb-0 text-xs font-mono text-slate-400 md:text-right w-36">
-                        Sep 2019 – Jun 2022
-                    </div>
-
-                    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
-                        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-800/80">
+                <!-- Role 3: Fusion Tech -->
+                <div class="relative group">
+                    <span class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-emerald-500 border-4 border-brand-dark group-hover:scale-125 transition-transform"></span>
+                    <div class="glass-card rounded-2xl p-6 md:p-8 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 pb-4">
                             <div>
-                                <h4 class="text-xl font-bold text-white">Data Analyst</h4>
-                                <div class="text-brand-400 font-semibold text-sm flex items-center gap-2 mt-0.5">
+                                <h4 class="text-2xl font-bold text-white">Data Analyst</h4>
+                                <div class="text-emerald-400 font-medium flex items-center gap-2">
                                     <span>Fusion Tech</span>
-                                    <span class="text-slate-600">•</span>
-                                    <span class="text-slate-400 text-xs font-normal">Hyderabad, India</span>
+                                    <span class="text-gray-500">•</span>
+                                    <span class="text-gray-400 text-sm">Hyderabad, India</span>
                                 </div>
                             </div>
+                            <span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-xs font-mono w-fit">
+                                Sep 2019 – Jun 2022
+                            </span>
                         </div>
 
-                        <ul class="mt-4 space-y-2.5 text-sm text-slate-300">
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Built Power BI reports tracking patient lifecycles, insurance claim approvals/rejections, and turnaround times, improving clinical/provider coordination.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Modeled Excel, CSV, and SQL Server data into Power BI star schema using Power Query to maximize report query speeds.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Developed DAX forecasting measures and Python time-series models (rolling averages) to predict caseload volumes and approval rates.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Created funnel, Gantt, and waterfall visuals for open claims and scheduled daily automated refreshes in Power BI Service.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Delivered ad hoc reporting and Excel pivot templates that cross-functional teams utilized for financial reconciliation.</span>
-                            </li>
+                        <ul class="space-y-2.5 text-gray-300 text-sm list-disc pl-5">
+                            <li>Built Power BI reports tracking patient lifecycles, insurance claim approvals and rejections, and turnaround times, improving coordination between clinical teams and providers.</li>
+                            <li>Modeled Excel, CSV, and SQL Server data into Power BI star schema with Power Query to optimize report performance.</li>
+                            <li>Built SQL Server queries and ETL pipelines with data quality checks to deliver clean datasets.</li>
+                            <li>Developed DAX forecasting measures and Python time-series analysis (rolling averages) to predict caseload volumes and claim approval rates.</li>
+                            <li>Created funnel, Gantt, and waterfall visuals for open claims, rejection timelines, withdrawals and scheduled daily refreshes in Power BI Service.</li>
+                            <li>Delivered ad hoc reports on claim rejections, average time-to-approve, and patient satisfaction, plus Excel pivot templates the team used to reconcile results against dashboards.</li>
                         </ul>
 
-                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap gap-2 text-xs font-mono">
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Power BI Service</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">SQL Server</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Python Time-Series</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Healthcare Analytics</span>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Power BI Service</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">SQL Server</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Python Forecasting</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Star Schema</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- EXPERIENCE 4: Infosys -->
-                <div class="relative pl-6 md:pl-10 group">
-                    <div class="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-slate-900 border-2 border-brand-500 flex items-center justify-center text-brand-400 text-xs shadow-lg group-hover:bg-brand-500 group-hover:text-slate-950 transition-all">
-                        <i class="fa-solid fa-chart-column text-xs"></i>
-                    </div>
-
-                    <div class="md:absolute md:-left-44 md:top-2 mb-2 md:mb-0 text-xs font-mono text-slate-400 md:text-right w-36">
-                        Aug 2017 – Aug 2019
-                    </div>
-
-                    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 hover:border-brand-500/40 transition-all">
-                        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-800/80">
+                <!-- Role 4: Infosys -->
+                <div class="relative group">
+                    <span class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-brand-dark group-hover:scale-125 transition-transform"></span>
+                    <div class="glass-card rounded-2xl p-6 md:p-8 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 pb-4">
                             <div>
-                                <h4 class="text-xl font-bold text-white">Systems Engineer</h4>
-                                <div class="text-brand-400 font-semibold text-sm flex items-center gap-2 mt-0.5">
+                                <h4 class="text-2xl font-bold text-white">Systems Engineer</h4>
+                                <div class="text-amber-400 font-medium flex items-center gap-2">
                                     <span>Infosys</span>
-                                    <span class="text-slate-600">•</span>
-                                    <span class="text-slate-400 text-xs font-normal">Hyderabad, India</span>
+                                    <span class="text-gray-500">•</span>
+                                    <span class="text-gray-400 text-sm">Hyderabad, India</span>
                                 </div>
                             </div>
+                            <span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-xs font-mono w-fit">
+                                Aug 2017 – Aug 2019
+                            </span>
                         </div>
 
-                        <ul class="mt-4 space-y-2.5 text-sm text-slate-300">
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Built real-time Tableau dashboards tracking sales KPIs using LOD expressions, parameters, and interactive drill-down actions.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Analyzed multi-year profit and seasonal trends to uncover inventory optimization opportunities, driving YoY sales growth.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Wrote complex SQL queries utilizing Joins, CTEs, Window Functions, and Subqueries for dataset validation.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-angle-right text-brand-400 text-xs mt-1"></i>
-                                <span>Automated recurring Excel reporting tasks with advanced formulas & pivot models, <strong>reducing reporting lead time by 30%</strong>.</span>
-                            </li>
+                        <ul class="space-y-2.5 text-gray-300 text-sm list-disc pl-5">
+                            <li>Built Tableau dashboards tracking sales KPIs in real time, using LOD expressions, parameters, and actions for drill-downs by region and category.</li>
+                            <li>Analyzed multi-year profit and seasonal trends to identify high-performing product categories and inventory opportunities, insights helped improve year-over-year product sales.</li>
+                            <li>Wrote SQL (joins, CTEs, window functions, subqueries) to prepare and validate sales and delivery datasets.</li>
+                            <li>Automated recurring Excel reports with pivot tables and advanced functions, cutting reporting time by 30%.</li>
                         </ul>
 
-                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap gap-2 text-xs font-mono">
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Tableau (LOD)</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Advanced SQL (CTEs, Window Functions)</span>
-                            <span class="px-2.5 py-1 bg-slate-800 rounded text-slate-300">Excel Automation</span>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Tableau (LOD)</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Advanced SQL (CTEs, Windows)</span>
+                            <span class="px-2.5 py-1 rounded bg-gray-800 text-xs font-mono text-gray-300">Excel Automation</span>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Education & Certifications Section -->
-    <section id="education" class="py-20 relative bg-slate-900/50 border-t border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                
-                <!-- Education Column -->
-                <div class="lg:col-span-5 space-y-6">
-                    <div>
-                        <h2 class="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">Academic Background</h2>
-                        <h3 class="text-3xl font-extrabold text-white">Education</h3>
-                    </div>
-
-                    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 relative">
-                        <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center text-xl mb-4">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                        </div>
-                        <div class="text-xs font-mono text-brand-400 mb-1">Graduated May 2017</div>
-                        <h4 class="text-xl font-bold text-white">B.E. in Computer Science & Engineering</h4>
-                        <p class="text-slate-300 text-sm mt-1">R.M.K. College of Engineering and Technology</p>
-                        <p class="text-xs text-slate-400 mt-1">Chennai, India</p>
-
-                        <div class="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono text-emerald-400">
-                            <i class="fa-solid fa-award"></i> GPA: 8.72 / 10
-                        </div>
-                    </div>
+        <!-- Education & Certifications Grid -->
+        <section id="education" class="grid lg:grid-cols-12 gap-8">
+            
+            <!-- Education Column -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="border-b border-gray-800 pb-4">
+                    <h2 class="text-xs font-mono text-brand-primary uppercase tracking-wider">Academic Background</h2>
+                    <h3 class="text-2xl font-bold text-white mt-1">Education</h3>
                 </div>
 
-                <!-- Certifications Column -->
-                <div class="lg:col-span-7 space-y-6">
-                    <div>
-                        <h2 class="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">Verified Qualifications</h2>
-                        <h3 class="text-3xl font-extrabold text-white">Certifications</h3>
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center text-brand-primary text-xl">
+                        <i class="fa-solid fa-graduation-cap"></i>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        
-                        <!-- Cert 1 -->
-                        <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-brand-500/50 transition-all flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0 text-lg">
-                                <i class="fa-brands fa-microsoft"></i>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-bold text-white">Microsoft Certified: Azure Developer Associate</h5>
-                                <span class="text-xs text-slate-400">Microsoft Cloud Certification</span>
-                            </div>
-                        </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-white">B.E., Computer Science and Engineering</h4>
+                        <p class="text-gray-400 text-sm mt-1">R.M.K. College of Engineering and Technology</p>
+                        <p class="text-xs text-gray-500">Chennai, India &nbsp;|&nbsp; May 2017</p>
+                    </div>
 
-                        <!-- Cert 2 -->
-                        <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-brand-500/50 transition-all flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0 text-lg">
-                                <i class="fa-brands fa-microsoft"></i>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-bold text-white">Microsoft Certified: Azure Fundamentals</h5>
-                                <span class="text-xs text-slate-400">Microsoft Cloud Certification</span>
-                            </div>
-                        </div>
-
-                        <!-- Cert 3 -->
-                        <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-brand-500/50 transition-all flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-red-500/10 text-rose-400 flex items-center justify-center shrink-0 text-lg">
-                                <i class="fa-brands fa-google"></i>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-bold text-white">Google Data Analytics Specialization</h5>
-                                <span class="text-xs text-slate-400">Google Coursera Professional</span>
-                            </div>
-                        </div>
-
-                        <!-- Cert 4 -->
-                        <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-brand-500/50 transition-all flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-cyanAccent/10 text-cyanAccent flex items-center justify-center shrink-0 text-lg">
-                                <i class="fa-solid fa-database"></i>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-bold text-white">Advanced SQL Certification</h5>
-                                <span class="text-xs text-slate-400">Data Architecture & Analytics</span>
-                            </div>
-                        </div>
-
-                        <!-- Cert 5 -->
-                        <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-brand-500/50 transition-all flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 text-lg">
-                                <i class="fa-brands fa-python"></i>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-bold text-white">Python Data Science Certification</h5>
-                                <span class="text-xs text-slate-400">Data Manipulation & PySpark</span>
-                            </div>
-                        </div>
-
-                        <!-- Cert 6 -->
-                        <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-brand-500/50 transition-all flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 text-lg">
-                                <i class="fa-solid fa-chart-column"></i>
-                            </div>
-                            <div>
-                                <h5 class="text-sm font-bold text-white">Power BI Data Analyst Certification</h5>
-                                <span class="text-xs text-slate-400">DAX, Power Query & Visualization</span>
-                            </div>
-                        </div>
-
+                    <div class="inline-block px-3 py-1.5 rounded-lg bg-gray-900 border border-gray-800 font-mono text-xs text-brand-emerald">
+                        GPA: 8.72 / 10
                     </div>
                 </div>
-
             </div>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-800 relative overflow-hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <!-- Certifications Column -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="border-b border-gray-800 pb-4">
+                    <h2 class="text-xs font-mono text-brand-secondary uppercase tracking-wider">Credentials</h2>
+                    <h3 class="text-2xl font-bold text-white mt-1">Certifications</h3>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
                     
-                    <div class="lg:col-span-6 space-y-4">
-                        <span class="text-xs font-mono text-brand-400 uppercase tracking-widest">Get In Touch</span>
-                        <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Let's Connect & Collaborate</h3>
-                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                            I am open to discuss data analytics projects, BI implementations, data engineering roles, or consulting opportunities. Feel free to reach out directly via email or phone.
-                        </p>
-
-                        <div class="pt-4 space-y-3 font-mono text-xs">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-brand-500/10 text-brand-400 flex items-center justify-center">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </div>
-                                <span class="text-slate-300">swathikalimi@outlook.com</span>
-                                <button onclick="copyToClipboard('swathikalimi@outlook.com', 'Email copied!')" class="text-slate-500 hover:text-brand-400 transition-colors">
-                                    <i class="fa-regular fa-copy"></i>
-                                </button>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                                    <i class="fa-solid fa-phone"></i>
-                                </div>
-                                <span class="text-slate-300">425-429-1234</span>
-                                <button onclick="copyToClipboard('425-429-1234', 'Phone copied!')" class="text-slate-500 hover:text-emerald-400 transition-colors">
-                                    <i class="fa-regular fa-copy"></i>
-                                </button>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                </div>
-                                <span class="text-slate-300">Seattle, WA</span>
-                            </div>
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
+                            <i class="fa-brands fa-microsoft"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Azure Fundamentals</h5>
+                            <p class="text-xs text-gray-400">Microsoft Certified</p>
                         </div>
                     </div>
 
-                    <!-- Contact Form Card -->
-                    <div class="lg:col-span-6">
-                        <form id="contact-form" onsubmit="handleFormSubmit(event)" class="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 space-y-4">
-                            <div>
-                                <label class="block text-xs font-mono text-slate-400 mb-1">YOUR NAME</label>
-                                <input type="text" required placeholder="John Doe" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500 transition-colors">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-mono text-slate-400 mb-1">YOUR EMAIL</label>
-                                <input type="email" required placeholder="john@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500 transition-colors">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-mono text-slate-400 mb-1">MESSAGE</label>
-                                <textarea rows="4" required placeholder="Hi Swathi, I'd like to talk about..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500 transition-colors resize-none"></textarea>
-                            </div>
-                            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-500 to-cyanAccent text-slate-950 font-bold text-sm hover:opacity-90 transition-opacity shadow-md">
-                                Send Message <i class="fa-solid fa-paper-plane text-xs ml-1"></i>
-                            </button>
-                        </form>
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
+                            <i class="fa-brands fa-microsoft"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Azure Developer Associate</h5>
+                            <p class="text-xs text-gray-400">Microsoft Certified</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 text-lg">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Python Certification</h5>
+                            <p class="text-xs text-gray-400">Verified Skill</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
+                            <i class="fa-solid fa-chart-bar"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Power BI Certification</h5>
+                            <p class="text-xs text-gray-400">Verified Skill</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-lg">
+                            <i class="fa-brands fa-google"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Google Data Analytics</h5>
+                            <p class="text-xs text-gray-400">Specialization</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white">Advanced SQL Certification</h5>
+                            <p class="text-xs text-gray-400">Verified Skill</p>
+                        </div>
                     </div>
 
                 </div>
             </div>
-        </div>
-    </section>
+
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="glass-card rounded-3xl p-8 md:p-12 border border-gray-800 relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-brand-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="grid md:grid-cols-12 gap-8 items-center relative z-10">
+                <div class="md:col-span-6 space-y-4">
+                    <h2 class="text-xs font-mono text-brand-primary uppercase tracking-wider">Let's Connect</h2>
+                    <h3 class="text-3xl sm:text-4xl font-bold text-white">Interested in working together?</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        I am currently exploring data analyst and BI developer opportunities. Feel free to reach out via email or connect with me on LinkedIn!
+                    </p>
+
+                    <div class="pt-4 space-y-3">
+                        <div class="flex items-center gap-3 text-gray-300 text-sm">
+                            <span class="w-8 h-8 rounded-lg bg-gray-800 flex items-center justify-center text-brand-primary"><i class="fa-solid fa-envelope"></i></span>
+                            <span>swathikalimi@outlook.com</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-300 text-sm">
+                            <span class="w-8 h-8 rounded-lg bg-gray-800 flex items-center justify-center text-brand-primary"><i class="fa-solid fa-location-dot"></i></span>
+                            <span>Seattle, WA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-6 glass-card rounded-2xl p-6 border border-gray-800 space-y-4">
+                    <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 mb-1">Your Name</label>
+                            <input type="text" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-800 text-white text-sm focus:outline-none focus:border-brand-primary transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 mb-1">Your Email</label>
+                            <input type="email" required placeholder="john@example.com" class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-800 text-white text-sm focus:outline-none focus:border-brand-primary transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 mb-1">Message</label>
+                            <textarea rows="3" required placeholder="Hi Swathi, I'd love to connect..." class="w-full px-4 py-2.5 rounded-xl bg-gray-900 border border-gray-800 text-white text-sm focus:outline-none focus:border-brand-primary transition-colors"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary text-brand-dark font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-brand-primary/20">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <!-- Footer -->
-    <footer class="py-8 border-t border-slate-800 text-center text-xs text-slate-500 font-mono">
+    <footer class="border-t border-gray-800/80 py-8 text-center text-xs text-gray-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-                © 2026 Swathi Kalimi. Designed with precision & data passion.
+                © 2026 Swathi Kalimi. All rights reserved.
             </div>
-            <div class="flex items-center gap-4 text-slate-400">
-                <a href="https://linkedin.com" target="_blank" class="hover:text-brand-400"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-                <a href="https://github.com" target="_blank" class="hover:text-brand-400"><i class="fa-brands fa-github"></i> GitHub</a>
+            <div class="flex items-center gap-6">
+                <a href="#about" class="hover:text-gray-400">Back to Top</a>
+                <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-gray-400">GitHub</a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" class="hover:text-gray-400">LinkedIn</a>
             </div>
         </div>
     </footer>
 
-    <!-- Resume View Modal -->
-    <div id="resume-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-3xl max-h-[90vh] rounded-2xl border border-slate-700 p-6 overflow-y-auto relative">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center">
-                        <i class="fa-solid fa-file-pdf"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-white text-lg">Swathi Kalimi - Executive Resume Summary</h3>
-                        <p class="text-xs text-slate-400">Data Analyst & BI Developer | Seattle, WA</p>
-                    </div>
-                </div>
-                <button onclick="closeResumeModal()" class="text-slate-400 hover:text-white text-xl p-2 focus:outline-none">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+    <!-- Resume Modal -->
+    <div id="resume-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-card rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 border border-gray-800 space-y-6 relative">
+            <button onclick="closeModal('resume-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="border-b border-gray-800 pb-4">
+                <h3 class="text-2xl font-bold text-white">Swathi Kalimi - Resume Overview</h3>
+                <p class="text-xs text-brand-primary font-mono mt-1">Data Analyst & BI Developer | Seattle, WA</p>
             </div>
 
-            <!-- Modal Resume Content Body -->
-            <div class="mt-6 space-y-6 text-sm text-slate-300">
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                    <h4 class="text-xs font-mono text-brand-400 uppercase tracking-widest mb-1">SUMMARY</h4>
-                    <p class="text-xs leading-relaxed text-slate-300">
+            <div class="space-y-4 text-sm text-gray-300">
+                <div>
+                    <h4 class="font-bold text-white text-base">Summary</h4>
+                    <p class="text-xs text-gray-400 mt-1">
                         Data Analyst and BI developer with 8+ years of experience turning large, messy datasets into dashboards, data models, and pipelines that teams use for daily decisions. Strongest in SQL, Power BI, and Python/PySpark, with hands-on Microsoft Fabric and Azure Data Factory experience across ML data operations, marketplace, healthcare, and sales analytics.
                     </p>
                 </div>
 
                 <div>
-                    <h4 class="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">EXPERIENCE HIGHLIGHTS</h4>
-                    <div class="space-y-3">
-                        <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800/80">
-                            <div class="font-bold text-white text-xs">Google (via Cognizant) - Data Analyst (Feb 2026 - Present)</div>
-                            <p class="text-[11px] text-slate-400 mt-1">Processed millions of raw records, map-sign ML workflow, LLM vision prompts, candidate selection automation (-15% manual effort).</p>
-                        </div>
-                        <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800/80">
-                            <div class="font-bold text-white text-xs">Upwork - Data Analyst (Mar 2024 - Jan 2026)</div>
-                            <p class="text-[11px] text-slate-400 mt-1">Microsoft Fabric AI Agent, OneLake DAX Power BI forecasting, Delta Lake optimizations, Adobe/CJA cross-reconciliation.</p>
-                        </div>
-                        <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800/80">
-                            <div class="font-bold text-white text-xs">Fusion Tech - Data Analyst (Sep 2019 - Jun 2022)</div>
-                            <p class="text-[11px] text-slate-400 mt-1">Patient lifecycles & insurance claim tracking, Power BI star schema, DAX & Python rolling averages forecasting.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">EDUCATION & CREDENTIALS</h4>
-                    <p class="text-xs text-slate-300">B.E. Computer Science & Engineering (GPA 8.72/10) • Microsoft Certified Azure Fundamentals & Developer Associate • Google Data Analytics Specialization</p>
+                    <h4 class="font-bold text-white text-base">Core Highlights</h4>
+                    <ul class="list-disc pl-5 text-xs text-gray-400 space-y-1 mt-1">
+                        <li>Google (Cognizant): ML map-sign model retraining, automated geo-imagery candidate selection (-15% manual effort).</li>
+                        <li>Upwork: Custom AI data agent for Microsoft Fabric OneLake, Power BI forecasting, Delta Lake table optimizations.</li>
+                        <li>Fusion Tech: Healthcare patient lifecycle & claim turnaround Power BI dashboards, SQL Server ETL pipelines.</li>
+                        <li>Infosys: Enterprise Tableau dashboards, sales trend analysis, complex SQL CTEs & window functions.</li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
-            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end gap-3">
-                <button onclick="closeResumeModal()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-800 text-slate-300 hover:text-white">
+            <div class="flex justify-end gap-3 pt-4 border-t border-gray-800">
+                <button onclick="closeModal('resume-modal')" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-medium">
                     Close
                 </button>
-                <button onclick="copyToClipboard('swathikalimi@outlook.com', 'Request sent to Swathi email!')" class="px-4 py-2 text-xs font-semibold rounded-lg bg-brand-500 text-slate-950 hover:bg-brand-400">
-                    Request Full PDF
-                </button>
+                <a href="mailto:swathikalimi@outlook.com?subject=Request%20Full%20Resume" class="px-4 py-2 rounded-xl bg-brand-primary text-brand-dark font-bold text-xs hover:bg-sky-400">
+                    Request PDF via Email
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Notification Toast Container -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-        <div class="glass-panel bg-slate-900/95 border border-brand-500/50 px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm text-white">
-            <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
-            <span id="toast-msg">Copied to clipboard!</span>
-        </div>
-    </div>
-
+    <!-- JavaScript Interactions -->
     <script>
-        // Mobile Menu Toggle
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // Copy to clipboard helper
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text);
+            showToast(`Copied ${label} to clipboard!`);
+        }
 
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        // Toast Handler
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
 
-        // Skill Filtering Logic
+        // Skill Filtering
         function filterSkills(category) {
-            const tabs = document.querySelectorAll('.skill-tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('bg-brand-500', 'text-slate-950', 'shadow-md');
-                tab.classList.add('glass-panel', 'text-slate-300');
+            const cards = document.querySelectorAll('.skill-card');
+            const buttons = document.querySelectorAll('.skill-filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-brand-primary', 'text-brand-dark');
+                btn.classList.add('bg-gray-800', 'text-gray-400');
             });
 
-            event.currentTarget.classList.remove('glass-panel', 'text-slate-300');
-            event.currentTarget.classList.add('bg-brand-500', 'text-slate-950', 'shadow-md');
+            event.target.classList.remove('bg-gray-800', 'text-gray-400');
+            event.target.classList.add('bg-brand-primary', 'text-brand-dark');
 
-            const cards = document.querySelectorAll('.skill-card');
             cards.forEach(card => {
                 if (category === 'all' || card.dataset.category === category) {
                     card.style.display = 'block';
@@ -929,47 +718,25 @@
             });
         }
 
-        // Copy To Clipboard Function
-        function copyToClipboard(text, message) {
-            const tempInput = document.createElement("input");
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-
-            showToast(message || "Copied to clipboard!");
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
         }
 
-        // Show Custom Toast Notification (No alerts)
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            toastMsg.innerText = msg;
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+        // Modal Open / Close
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
         }
 
-        // Contact Form Handling
+        // Form Submit Simulation
         function handleFormSubmit(e) {
             e.preventDefault();
-            showToast("Thank you! Your message has been sent.");
-            document.getElementById('contact-form').reset();
-        }
-
-        // Resume Modal Controls
-        function openResumeModal() {
-            document.getElementById('resume-modal').classList.remove('hidden');
-        }
-
-        function closeResumeModal() {
-            document.getElementById('resume-modal').classList.add('hidden');
+            showToast('Message sent! Thanks for getting in touch.');
+            e.target.reset();
         }
     </script>
 </body>
